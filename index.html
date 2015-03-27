@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8"> 
+	<title>
+		Conway's GOL
+	</title>
+	<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400' rel='stylesheet' type='text/css'>
+	<style>
+		* {
+		    font-family: 'Roboto Slab', serif;
+		    color: #111;
+		    font-weight:400;
+		    font-size:0.9em;
+		}
+		html,body,canvas{
+			width:100%;
+			height:100%;
+			margin:0;
+			padding:0;
+		}
+		button:focus{
+			outline:1px solid red;
+		}
+		button{
+			position:relative;
+			z-index:2;
+			text-align:center;
+			cursor:pointer;
+			background:white;
+			border:1px solid grey;
+			margin:10px;
+			margin-right:0;
+		}
+		canvas {
+			position:absolute;
+			top:0;
+			left:0;
+		}
+		.black {
+			background-color:black;
+		}
+	</style>
+
+</head>
+<body>
+	<button id="seed">re-seed</button>
+	<button id="genocide">genocide</button>
+	<button id="playpause">play/pause</button>
+<script src="src/interaction.js"></script>
+<script src="src/point.js"></script>
+<script src="src/vectors.js"></script>
+<script src="src/cell.js"></script>
+<script src="src/renderer.js"></script>
+<script src="src/environment.js"></script>
+<script src="src/frame-manager.js"></script>
+<script>
+	$(function(){
+		var frameManager = new FrameManager(80);
+		frameManager.start();
+		var toggle = false;
+		$('#playpause').on('click',$.proxy(function(e){
+			e.stopPropagation();
+			toggle = !toggle;
+			if(toggle) {
+				frameManager.stop();
+			} else {
+				frameManager.start();
+			}
+		},this));
+
+		$('#seed').on('click',$.proxy(function(e){
+			e.stopPropagation();
+			frameManager.reSeed();
+		},this));
+
+		$('#genocide').on('click',$.proxy(function(e){
+			e.stopPropagation();
+			frameManager.genocide();
+		},this));
+	});
+</script>
+</body>
+</html>
